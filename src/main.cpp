@@ -41,7 +41,8 @@ int main() {
 
     fastaReader fr;
     //std::string fn = "/Users/josephkang/PycharmProjects/minimal_uniquemer/data/fake_geno_1/fake_geno.fa";
-    std::string fn = "/Users/josephkang/Documents/uniquekmer/data/22.fa";
+    //std::string fn = "/Users/josephkang/Documents/uniquekmer/data/22.fa";
+    std::string fn = "/work/bioinformatics/s187520/uniquekmer/data/genome/fa";
 
     // std::string read = fr.read(fn);
 
@@ -53,7 +54,8 @@ int main() {
 
     cout << "Finished building FM Index" << endl;
 
-    std::string output_file = "/Users/josephkang/CLionProjects/use_FM/output/FM_index";
+    //std::string output_file = "/Users/josephkang/CLionProjects/use_FM/output/FM_index";
+    std::string output_file = "/work/bioinformatics/s187520/use_FM/output/genome_FM_index";
     fmi->serialize_to_file(output_file);
 
     cout << "Finished serializing FM Index to file: " << output_file << endl;
@@ -64,9 +66,9 @@ int main() {
     // cout << read << endl;
     // cout << unams << endl;
 
-    std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
+    // std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
 
-    cout << fmi->find(matches, std::string("CGGCGCGATCGGGGGCGCGATCCCCCCCAGAGAGA")) << endl;
+    // cout << fmi->find(matches, std::string("CGGCGCGATCGGGGGCGCGATCCCCCCCAGAGAGA")) << endl;
 
 
 
