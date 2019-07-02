@@ -44,6 +44,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/Users/josephkang/Downloads/boost_1_68_0/boost/python.hpp"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
@@ -65,6 +66,7 @@
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
+					<Add directory="/Users/josephkang/Downloads/boost_1_68_0/boost/python.hpp"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include/c++/v1"/>
 					<Add directory="/usr/local/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/include"/>
@@ -80,6 +82,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/FMCommands.h">
+			<Option target="use_FM"/>
+		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/fastaReader.cpp">
 			<Option target="use_FM"/>
 		</Unit>
@@ -87,6 +92,12 @@
 			<Option target="use_FM"/>
 		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/main.cpp">
+			<Option target="use_FM"/>
+		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/spammodule.cpp">
+			<Option target="use_FM"/>
+		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/spammodule.h">
 			<Option target="use_FM"/>
 		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/CMakeLists.txt">

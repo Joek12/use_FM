@@ -15,5 +15,9 @@ CMakeFiles/use_FM.dir/src/main.cpp.o
  /Users/josephkang/CLionProjects/use_FM/resources/misc.h
  /Users/josephkang/CLionProjects/use_FM/resources/openbwt.h
  /Users/josephkang/CLionProjects/use_FM/resources/serializing.h
+ /Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
  /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
  /Users/josephkang/CLionProjects/use_FM/src/main.cpp
+CMakeFiles/use_FM.dir/src/spammodule.cpp.o
+ /Users/josephkang/CLionProjects/use_FM/src/spammodule.cpp
+ /Users/josephkang/CLionProjects/use_FM/src/spammodule.h

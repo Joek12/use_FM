@@ -177,6 +177,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/spammodule.o: src/spammodule.cpp.o
+
+.PHONY : src/spammodule.o
+
+# target to build an object file
+src/spammodule.cpp.o:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/spammodule.cpp.o
+.PHONY : src/spammodule.cpp.o
+
+src/spammodule.i: src/spammodule.cpp.i
+
+.PHONY : src/spammodule.i
+
+# target to preprocess a source file
+src/spammodule.cpp.i:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/spammodule.cpp.i
+.PHONY : src/spammodule.cpp.i
+
+src/spammodule.s: src/spammodule.cpp.s
+
+.PHONY : src/spammodule.s
+
+# target to generate assembly for a file
+src/spammodule.cpp.s:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/spammodule.cpp.s
+.PHONY : src/spammodule.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/spammodule.o"
+	@echo "... src/spammodule.i"
+	@echo "... src/spammodule.s"
 .PHONY : help
 
 

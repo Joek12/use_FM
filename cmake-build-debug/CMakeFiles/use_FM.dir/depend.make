@@ -14,6 +14,10 @@ CMakeFiles/use_FM.dir/src/main.cpp.o: ../resources/WaveletTree.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../resources/misc.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../resources/openbwt.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../resources/serializing.h
+CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/FMCommands.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/fastaReader.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/main.cpp
+
+CMakeFiles/use_FM.dir/src/spammodule.cpp.o: ../src/spammodule.cpp
+CMakeFiles/use_FM.dir/src/spammodule.cpp.o: ../src/spammodule.h
 

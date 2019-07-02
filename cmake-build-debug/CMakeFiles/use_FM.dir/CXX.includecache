@@ -82,11 +82,7 @@ sstream
 iterator
 -
 
-/Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
-string
--
-
-/Users/josephkang/CLionProjects/use_FM/src/main.cpp
+/Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
 iostream
 -
 ../resources/BitVector.h
@@ -115,4 +111,16 @@ string
 /Users/josephkang/CLionProjects/use_FM/resources/BitVector.cpp
 fastaReader.h
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
+
+/Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
+string
+-
+
+/Users/josephkang/CLionProjects/use_FM/src/main.cpp
+iostream
+-
+FMCommands.h
+/Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
+Python/Python.h
+/Users/josephkang/CLionProjects/use_FM/src/Python/Python.h
 
