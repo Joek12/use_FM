@@ -33,9 +33,9 @@ void make_fm(std::string inFile, std::string outFile){
 
     // std::string read = fr.read(inFile);
 
-    std::string unams = fr.unam(inFile);
+    std::string unams = fr.read(inFile);
 
-    std::cout << "Finished reading unams from : " << inFile << "\n";
+    std::cout << "Finished reading chars from : " << inFile << "\n";
 
     auto fmi = new FMIndex(unams);
 
@@ -57,6 +57,21 @@ void make_fm(std::string inFile, std::string outFile){
 
 }
 
+FMIndex * make_fm(std::string inFile){
+
+    fastaReader fr;
+    //std::string inFile = "/Users/josephkang/PycharmProjects/minimal_uniquemer/data/fake_geno_1/fake_geno.fa";
+
+    // std::string read = fr.read(inFile);
+
+    std::string reads = fr.read(inFile);
+
+    auto fmi = new FMIndex(reads);
+
+    return fmi;
+
+}
+
 std::vector<int> find_matches(std::vector<std::string> seqs, FMIndex * fmi){
 
     std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
@@ -66,6 +81,68 @@ std::vector<int> find_matches(std::vector<std::string> seqs, FMIndex * fmi){
     }
     return hits;
 
+
+}
+
+std::vector<int> find_matches(std::string filename, FMIndex * fmi, std::string geno){
+    // find matches from json file
+
+    // read the file (should be one continuous string read
+    std::ifstream myf (filename);
+    std::string line;
+    if (myf.is_open()){
+        getline(myf, line);
+    }
+
+    // parse the string
+    // "{\"num0\": num1, \"num2\": num3, ... }"
+    line = line.substr(1,line.length() - 2);
+
+    // "\"num0\": num1, \"num2\": num3, ..."
+    std::string delimiter = ",";
+    std::string mini_delimiter = ":";
+    size_t pos = 0;
+    size_t mini_pos = 0;
+    std::string token;
+
+    int num0, num1;
+
+    std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
+
+    std::vector<int>hits;
+    std::string seq;
+
+    while ((pos = line.find(delimiter)) != std::string::npos){
+
+        std::vector<int> nums;
+        token = line.substr(0, pos);
+
+        mini_pos = token.find(mini_delimiter);
+        num0 = std::stoi(token.substr(1,mini_pos));
+        token.erase(0, mini_pos + mini_delimiter.length() + 1); // 2 added to account for ": "
+
+        num1 = std::stoi(token);
+
+        line.erase(0, pos + delimiter.length() + 1);
+        seq = geno.substr(num0, num1-num0);
+        hits.push_back(fmi->find(matches, seq));
+
+    }
+
+    return hits;
+
+}
+
+std::vector<int> find_matches(std::vector<std::vector<int>> seqs, FMIndex * fmi, std::string geno){
+    std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
+    std::vector<int> hits;
+
+    for (std::vector<int> mini : seqs){
+        std::string seq = geno.substr(mini[0], mini[1] - mini[0]);
+        hits.push_back(fmi->find(matches, seq));
+    }
+
+    return hits;
 
 }
 
@@ -101,4 +178,25 @@ void make_bwt(){
                    static_cast<int>(s.size()));
 
     std::cout << t << '\n';
+}
+
+std::vector<int> * get_hits(std::vector<std::vector<int>> * reads, std::string * geno, FMIndex * fmi){
+    std::vector<int> * hits;
+    for (std::vector<int> vec : *reads){
+        int start = vec.at(0);
+        hits->emplace_back(fmi->findn(geno->substr(start, vec.at(1) - start)));
+    }
+    return hits;
+
+}
+
+void write_finds(std::vector<std::vector<int>> * reads, std::string * geno, FMIndex * fmi, std::string * fn){
+
+    std::ofstream myf (*fn);
+    if (myf.is_open()){
+        for (std::vector<int> vec : *reads){
+            int start = vec.at(0);
+            myf<<fmi->findn(geno->substr(start, vec.at(1) - start)) << ", ";
+        }
+    }
 }

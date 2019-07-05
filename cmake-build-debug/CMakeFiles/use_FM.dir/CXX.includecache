@@ -119,8 +119,10 @@ string
 /Users/josephkang/CLionProjects/use_FM/src/main.cpp
 iostream
 -
+fstream
+-
 FMCommands.h
 /Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
-Python/Python.h
-/Users/josephkang/CLionProjects/use_FM/src/Python/Python.h
+fastaReader.h
+/Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
 
