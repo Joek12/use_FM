@@ -2,7 +2,7 @@
 #include <fstream>
 #include "FMCommands.h"
 #include "fastaReader.h"
-
+#include "pbar.h"
 
 auto json_reader(std::string filename){
 
@@ -122,6 +122,35 @@ int main() {
     const std::string outFile = "/Users/josephkang/CLionProjects/use_FM/output/22_FM";
     const std::string json_file = "/Users/josephkang/Documents/uniquekmer/output/c22_mu";
 
+    const std::string mu_start = "/Users/josephkang/Documents/uniquekmer/src/c22_mu_starts_0709";
+    const std::string mu_end = "/Users/josephkang/Documents/uniquekmer/src/c22_mu_ends_0709";
+
+    auto reads = read_start_end(mu_start, mu_end);
+    std::cout << "start and end files read\n";
+
+    fastaReader fr;
+
+    //std::string geno = fr.read(inFile);
+    std::string geno = fr.read(inFile);
+    std::cout << "genome read\n";
+    //FMIndex * c22 = make_fm(inFile);
+
+    FMIndex *c22 = readFMFile(outFile);
+    auto hits = get_hits(reads, &geno, c22);
+    std::cout << "hits get";
+
+    write_hits_file("c22_mu_hits_with_ambs", hits);
+}
+/*
+    // check hits and output to file
+    const std::string output = "mu_hits";
+    std::ofstream ofs (output);
+    if(ofs.is_open()){
+        for (std::vector<int> arr : *reads){
+
+        }
+    }
+
 
     // make_fm(inFile, outFile);
     // FMIndex * c22 = make_fm(inFile);
@@ -135,6 +164,7 @@ int main() {
     //std::vector<std::vector<int>> *reads = just_dump_read(
     //        "/Users/josephkang/Documents/uniquekmer/src/c22_mu_just_dump");
     //std::cout << "json file read\n";
+    */
 
     /*
     // std::vector<std::string> sequences;
@@ -158,7 +188,7 @@ int main() {
     //std::cout << "length of hits vector: " << hits.size();
      */
 
-
+/*
 
     std::list<std::pair<FMIndex::const_iterator, FMIndex::const_reverse_iterator>> matches;
     std::vector<int> hits;
@@ -200,16 +230,16 @@ int main() {
 
         }
     }
-
+    */
+/*
     //hits.emplace_back(c22->find(matches, geno.substr(10510000, 13)));
-    /*
     std::cout << geno.substr(4,17-4) << "\n";
     hits.emplace_back(c22->find(matches, geno.substr(0, 13-0)));
     hits.emplace_back(c22->find(matches, geno.substr(1, 15-1)));
     hits.emplace_back(c22->find(matches, geno.substr(2, 16-2)));
     hits.emplace_back(c22->find(matches, geno.substr(4, 17-4)));
     hits.emplace_back(c22->find(matches, geno.substr(6, 20-6)));
-     */
+    hits.emplace_back(c22->find(matches, geno.substr(7, 21-7)));
 
 
 
@@ -224,4 +254,5 @@ int main() {
 
     return 0;
 }
+*/
 

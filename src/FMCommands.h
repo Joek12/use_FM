@@ -16,6 +16,7 @@
 #include "../resources/WaveletTree.cpp"
 #include "../resources/BitVector.cpp"
 #include "fastaReader.h"
+#include "pbar.h"
 
 #ifndef USE_FM_FMCOMMANDS_H
 #define USE_FM_FMCOMMANDS_H
@@ -181,10 +182,18 @@ void make_bwt(){
 }
 
 std::vector<int> * get_hits(std::vector<std::vector<int>> * reads, std::string * geno, FMIndex * fmi){
-    std::vector<int> * hits;
+    std::vector<int> * hits = new std::vector<int>;
+    pbar pb(reads->size(), "getting hits");
     for (std::vector<int> vec : *reads){
         int start = vec.at(0);
-        hits->emplace_back(fmi->findn(geno->substr(start, vec.at(1) - start)));
+        std::string subs = geno ->substr(start, vec.at(1));
+        int hit = 0;
+
+        subs.empty() ? NULL : hit = fmi->findn(subs);
+        hits->emplace_back(hit);
+
+        pb.update();
+        pb.show();
     }
     return hits;
 
@@ -200,3 +209,42 @@ void write_finds(std::vector<std::vector<int>> * reads, std::string * geno, FMIn
         }
     }
 }
+
+std::vector<std::vector<int>> * read_start_end(const std::string start_file, const std::string end_file){
+    std::ifstream starts_if (start_file);
+    std::ifstream ends_if (end_file);
+    std::string start_line, end_line;
+
+    if (starts_if.is_open() && ends_if.is_open()){
+        // get lengths
+        getline(starts_if, start_line);
+        const std::string delim = "length";
+        start_line.erase(0, delim.length() + 2);
+
+        getline(ends_if, end_line);
+        end_line.erase(0, delim.length() + 2);
+        assert(std::stoi(start_line) == std::stoi(end_line));
+
+        pbar pb (std::stoi(start_line), "reading starts and end");
+
+        auto *reads = new std::vector<std::vector<int>>;
+        std::vector<int> mini;
+
+        while( getline(starts_if, start_line) && getline(ends_if, end_line)){
+            mini.emplace_back(std::stoi(start_line));
+            mini.emplace_back(std::stoi(end_line));
+            reads->emplace_back(mini);
+            mini.clear();
+
+            pb.update();
+            pb.show();
+        }
+
+        starts_if.close();
+        ends_if.close();
+        return reads;
+    }
+    return nullptr;
+
+}
+

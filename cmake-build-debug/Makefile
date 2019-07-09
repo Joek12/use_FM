@@ -177,6 +177,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/pbar.o: src/pbar.cpp.o
+
+.PHONY : src/pbar.o
+
+# target to build an object file
+src/pbar.cpp.o:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/pbar.cpp.o
+.PHONY : src/pbar.cpp.o
+
+src/pbar.i: src/pbar.cpp.i
+
+.PHONY : src/pbar.i
+
+# target to preprocess a source file
+src/pbar.cpp.i:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/pbar.cpp.i
+.PHONY : src/pbar.cpp.i
+
+src/pbar.s: src/pbar.cpp.s
+
+.PHONY : src/pbar.s
+
+# target to generate assembly for a file
+src/pbar.cpp.s:
+	$(MAKE) -f CMakeFiles/use_FM.dir/build.make CMakeFiles/use_FM.dir/src/pbar.cpp.s
+.PHONY : src/pbar.cpp.s
+
 src/spammodule.o: src/spammodule.cpp.o
 
 .PHONY : src/spammodule.o
@@ -219,6 +246,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/pbar.o"
+	@echo "... src/pbar.i"
+	@echo "... src/pbar.s"
 	@echo "... src/spammodule.o"
 	@echo "... src/spammodule.i"
 	@echo "... src/spammodule.s"

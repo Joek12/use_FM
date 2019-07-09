@@ -94,6 +94,12 @@
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/main.cpp">
 			<Option target="use_FM"/>
 		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/pbar.cpp">
+			<Option target="use_FM"/>
+		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/pbar.h">
+			<Option target="use_FM"/>
+		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/spammodule.cpp">
 			<Option target="use_FM"/>
 		</Unit>

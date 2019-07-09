@@ -111,6 +111,8 @@ string
 /Users/josephkang/CLionProjects/use_FM/resources/BitVector.cpp
 fastaReader.h
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
+pbar.h
+/Users/josephkang/CLionProjects/use_FM/src/pbar.h
 
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
 string
@@ -125,4 +127,10 @@ FMCommands.h
 /Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
 fastaReader.h
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
+pbar.h
+/Users/josephkang/CLionProjects/use_FM/src/pbar.h
+
+/Users/josephkang/CLionProjects/use_FM/src/pbar.h
+iostream
+-
 
