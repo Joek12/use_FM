@@ -17,6 +17,7 @@ CMakeFiles/use_FM.dir/src/main.cpp.o: ../resources/serializing.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/FMCommands.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/fastaReader.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/main.cpp
+CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/mu_commands.h
 CMakeFiles/use_FM.dir/src/main.cpp.o: ../src/pbar.h
 
 CMakeFiles/use_FM.dir/src/pbar.cpp.o: ../src/pbar.cpp

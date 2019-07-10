@@ -17,14 +17,12 @@
 #include "../resources/BitVector.cpp"
 #include "fastaReader.h"
 #include "pbar.h"
+#include <deque>
+#include <queue>
+#include "mu_commands.h"
 
 #ifndef USE_FM_FMCOMMANDS_H
 #define USE_FM_FMCOMMANDS_H
-
-#endif //USE_FM_FMCOMMANDS_H
-
-
-
 
 
 void make_fm(std::string inFile, std::string outFile){
@@ -181,21 +179,54 @@ void make_bwt(){
     std::cout << t << '\n';
 }
 
-std::vector<int> * get_hits(std::vector<std::vector<int>> * reads, std::string * geno, FMIndex * fmi){
+std::vector<int> * get_hits(std::deque<std::vector<int>> * reads, std::string * geno, FMIndex * fmi){
     std::vector<int> * hits = new std::vector<int>;
     pbar pb(reads->size(), "getting hits");
     for (std::vector<int> vec : *reads){
         int start = vec.at(0);
-        std::string subs = geno ->substr(start, vec.at(1));
+        int end = vec.at(1);
+        std::string subs = geno ->substr(start, (end > start ? end-start : end));
         int hit = 0;
 
         subs.empty() ? NULL : hit = fmi->findn(subs);
+        assert(hit <= 1);
         hits->emplace_back(hit);
 
         pb.update();
         pb.show();
     }
     return hits;
+
+}
+
+
+void assert_unique(std::deque<std::vector<int>> * reads, std::string* geno, FMIndex * fmi){
+    size_t length = reads->size();
+    int not_unique = 0;
+    pbar pb(length, "asserting uniqueness");
+    for (size_t i = 0; i < length; i++){
+        auto vec = reads->at(0);
+        reads->pop_front();
+        int start = vec.at(0);
+        int end = vec.at(1);
+
+        // if end > start, most likely means that actual end position was stored
+        // else, most likely means the length of kmer stored
+        std::string subs = geno -> substr(start, (end > start ? end-start : end));
+
+        int hit = 0;
+        subs.empty() ? NULL : hit = fmi -> findn(subs);
+
+        if (hit == 1) reads->emplace_back(vec);
+        else ++not_unique;
+
+        pb.update();
+        pb.show();
+
+    }
+
+    std::cout << "not uniques: " << not_unique <<"\n";
+    std::cout << "total number of original sequences: " << length << std::endl;
 
 }
 
@@ -210,7 +241,20 @@ void write_finds(std::vector<std::vector<int>> * reads, std::string * geno, FMIn
     }
 }
 
-std::vector<std::vector<int>> * read_start_end(const std::string start_file, const std::string end_file){
+void write_start_end(std::deque<std::vector<int>> * reads, std::string start_file, std::string end_file){
+    std::ofstream starts (start_file);
+    std::ofstream ends (end_file);
+    if (starts.is_open() and ends.is_open()){
+        size_t length = reads->size();
+        for(size_t i = 0; i < length; i++){
+            auto vec = reads->at(i);
+            starts << vec.at(0) << "\n";
+            ends << vec.at(1) << "\n";
+        }
+    }
+}
+
+std::deque<std::vector<int>> * read_start_end(const std::string start_file, const std::string end_file){
     std::ifstream starts_if (start_file);
     std::ifstream ends_if (end_file);
     std::string start_line, end_line;
@@ -227,7 +271,7 @@ std::vector<std::vector<int>> * read_start_end(const std::string start_file, con
 
         pbar pb (std::stoi(start_line), "reading starts and end");
 
-        auto *reads = new std::vector<std::vector<int>>;
+        auto *reads = new std::deque<std::vector<int>>;
         std::vector<int> mini;
 
         while( getline(starts_if, start_line) && getline(ends_if, end_line)){
@@ -248,3 +292,94 @@ std::vector<std::vector<int>> * read_start_end(const std::string start_file, con
 
 }
 
+struct valid_SNP{
+    int start_pos;
+    int end_pos;
+    int pos;
+    char s;
+};
+
+std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std::string * geno,  std::deque<SNP>* snps, FMIndex * fmi){
+    // assumes that reads contains start as pos and ends as length
+
+    // phase 1: popping unnecessary k-mers
+    // phase 2: reading necessary k-mers
+
+    size_t snp_arr_length = snps->size();
+    pbar pb (snp_arr_length, "checking uniqueness after snp");
+    size_t count = 0;
+
+    int past_end = 0;
+    int past_start = 0;
+
+    std::queue<valid_SNP> v_snp;
+
+    for (size_t i = 0; i < snp_arr_length; i++){
+
+        auto snp = snps->at(0);
+        snps->pop_front();
+
+        // pop until acquiring first important kmer
+        while(past_end < snp.pos){
+            auto r_vec = reads->at(0);
+            reads->pop_front();
+            int start = r_vec.at(0);
+            int end = r_vec.at(1);
+            past_end = (end > start? end : start + end);
+        }
+
+        // reading phase
+        while(past_start <= snp.pos){
+            auto r_vec = reads->at(0);
+            reads->pop_front();
+            int start = r_vec.at(0);
+            int end = r_vec.at(1);
+            past_start = start;
+            end = end > start? end - start : end;
+            if (start <= snp.pos <= end + start){
+
+                auto subs = geno->substr(start, end);
+                if(fmi->findn(subs) == 1){
+                    ++count;
+                    valid_SNP sn = {start, end, snp.pos, snp.s};
+                    v_snp.push(sn);
+                }
+
+            }
+            else if (start > snp.pos) reads->push_front(r_vec);
+        }
+
+
+        pb.update();
+        pb.show();
+
+        /*
+        if (holder.empty()) {
+            int past_end = 0;
+            while(past_end < snp.pos){
+                auto r_vec = reads->at(0);
+                int start = r_vec.at(0);
+                int end = r_vec.at(1);
+                past_end = (end > start? end : start + end);
+                reads->pop_front();
+            }
+        }
+         */
+
+
+
+
+    }
+    return v_snp;
+}
+
+void write_q_file(std::queue<valid_SNP> q, std::string fn){
+    std::ofstream myf (fn);
+
+    while(not q.empty()){
+
+    }
+
+}
+
+#endif

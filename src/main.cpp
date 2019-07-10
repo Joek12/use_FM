@@ -3,6 +3,7 @@
 #include "FMCommands.h"
 #include "fastaReader.h"
 #include "pbar.h"
+#include "mu_commands.h"
 
 auto json_reader(std::string filename){
 
@@ -125,7 +126,11 @@ int main() {
     const std::string mu_start = "/Users/josephkang/Documents/uniquekmer/src/c22_mu_starts_0709";
     const std::string mu_end = "/Users/josephkang/Documents/uniquekmer/src/c22_mu_ends_0709";
 
+    const std::string snp_pos = "/Users/josephkang/Documents/uniquekmer/output/ez_c22_SNP_pos";
+    const std::string snp_char = "/Users/josephkang/Documents/uniquekmer/output/ez_c22_SNP_char";
+
     auto reads = read_start_end(mu_start, mu_end);
+    //stitch(reads);
     std::cout << "start and end files read\n";
 
     fastaReader fr;
@@ -135,11 +140,23 @@ int main() {
     std::cout << "genome read\n";
     //FMIndex * c22 = make_fm(inFile);
 
+    auto snps = read_snp_file(snp_pos, snp_char);
+    std::cout << "number of snps: " << snps.size();
+
     FMIndex *c22 = readFMFile(outFile);
-    auto hits = get_hits(reads, &geno, c22);
+    //auto hits = get_hits(reads, &geno, c22);
+    assert_unique(reads, &geno, c22);
     std::cout << "hits get";
 
-    write_hits_file("c22_mu_hits_with_ambs", hits);
+    write_start_end(reads, "mu_unique_starts", "mu_unique_ends");
+
+    auto v_snp = check_snp_unique(reads, &geno, &snps, c22);
+
+    std::cout << "The number of valid SNPs: " << v_snp.size() << std::endl;
+
+
+    //write_hits_file("c22_mu_hits_with_ambs_0710", hits);
+
 }
 /*
     // check hits and output to file

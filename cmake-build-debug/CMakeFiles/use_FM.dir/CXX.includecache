@@ -113,6 +113,12 @@ fastaReader.h
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
 pbar.h
 /Users/josephkang/CLionProjects/use_FM/src/pbar.h
+deque
+-
+queue
+-
+mu_commands.h
+/Users/josephkang/CLionProjects/use_FM/src/mu_commands.h
 
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
 string
@@ -127,6 +133,18 @@ FMCommands.h
 /Users/josephkang/CLionProjects/use_FM/src/FMCommands.h
 fastaReader.h
 /Users/josephkang/CLionProjects/use_FM/src/fastaReader.h
+pbar.h
+/Users/josephkang/CLionProjects/use_FM/src/pbar.h
+mu_commands.h
+/Users/josephkang/CLionProjects/use_FM/src/mu_commands.h
+
+/Users/josephkang/CLionProjects/use_FM/src/mu_commands.h
+iostream
+-
+deque
+-
+../resources/FMIndex.h
+/Users/josephkang/CLionProjects/use_FM/resources/FMIndex.h
 pbar.h
 /Users/josephkang/CLionProjects/use_FM/src/pbar.h
 
