@@ -340,7 +340,7 @@ std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std
 
                 auto subs = geno->substr(start, end);
                 if(fmi->findn(subs) == 1){
-                    ++count;
+                    //++count;
                     valid_SNP sn = {start, end, snp.pos, snp.s};
                     v_snp.push(sn);
                 }
@@ -372,6 +372,8 @@ std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std
     }
     return v_snp;
 }
+
+
 
 void write_q_file(std::queue<valid_SNP> q, std::string fn){
     std::ofstream myf (fn);

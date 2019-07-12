@@ -7,6 +7,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/josephkang/CLionProjects/use_FM/src/fastaReader.cpp" "/Users/josephkang/CLionProjects/use_FM/cmake-build-debug/CMakeFiles/use_FM.dir/src/fastaReader.cpp.o"
   "/Users/josephkang/CLionProjects/use_FM/src/main.cpp" "/Users/josephkang/CLionProjects/use_FM/cmake-build-debug/CMakeFiles/use_FM.dir/src/main.cpp.o"
   "/Users/josephkang/CLionProjects/use_FM/src/pbar.cpp" "/Users/josephkang/CLionProjects/use_FM/cmake-build-debug/CMakeFiles/use_FM.dir/src/pbar.cpp.o"
+  "/Users/josephkang/CLionProjects/use_FM/src/primer_design.cpp" "/Users/josephkang/CLionProjects/use_FM/cmake-build-debug/CMakeFiles/use_FM.dir/src/primer_design.cpp.o"
   "/Users/josephkang/CLionProjects/use_FM/src/spammodule.cpp" "/Users/josephkang/CLionProjects/use_FM/cmake-build-debug/CMakeFiles/use_FM.dir/src/spammodule.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")

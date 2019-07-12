@@ -137,6 +137,8 @@ pbar.h
 /Users/josephkang/CLionProjects/use_FM/src/pbar.h
 mu_commands.h
 /Users/josephkang/CLionProjects/use_FM/src/mu_commands.h
+primer_design.h
+/Users/josephkang/CLionProjects/use_FM/src/primer_design.h
 
 /Users/josephkang/CLionProjects/use_FM/src/mu_commands.h
 iostream
@@ -149,6 +151,10 @@ pbar.h
 /Users/josephkang/CLionProjects/use_FM/src/pbar.h
 
 /Users/josephkang/CLionProjects/use_FM/src/pbar.h
+iostream
+-
+
+/Users/josephkang/CLionProjects/use_FM/src/primer_design.h
 iostream
 -
 

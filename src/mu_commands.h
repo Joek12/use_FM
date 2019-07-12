@@ -98,5 +98,98 @@ std::deque<SNP> read_snp_file(std::string pos, std::string ch){
     return reads;
 }
 
+void distance(std::deque<std::vector<int>> * mu, int d = 300){
+
+    auto vec = mu->at(0);
+    size_t length = mu->size();
+    int past_start = vec.at(0);
+    int past_end = (vec.at(1) > past_start ? vec.at(1) : (past_start + vec.at(1)));
+    bool flag = true;
+
+    pbar pb (length, "finding within distance");
+
+    for (size_t i = 0; i < length; i++){
+        vec = mu->at(0);
+        mu->pop_front();
+        int start = vec.at(0);
+
+        if (start <= past_end + d){
+            if (!flag){
+                std::vector<int> v = {past_start, past_end};
+                mu->push_back(v);
+            }
+            flag = true;
+            mu->push_back(vec);
+        }
+
+        else flag = false;
+
+        past_end = vec.at(1);
+        past_start = start;
+
+        pb.update();
+        pb.show();
+    }
+
+    std::cout << "number of valids after distance()" << mu->size();
+}
+
+void perfect_stitch(std::deque<std::vector<int>> * mu, int bot = 0, int top = 0){
+
+
+    auto vec = mu->at(0);
+    size_t length = mu->size();
+    int past_start = vec.at(0);
+    int past_end = (vec.at(1) > past_start ? vec.at(1) : (past_start + vec.at(1)));
+    int begin = past_start;
+    pbar pb(length, "perfect stitching");
+    int count_mu = 0;
+
+    try {
+
+        for (size_t _ = 0; _ < length; _++) {
+
+            pb.update();
+            pb.show();
+
+            //vec = mu->at(0);
+            if (mu->empty())
+                break;
+            mu->pop_front();
+            int start = vec.at(0);
+            count_mu++;
+            int end = (vec.at(1) > start ? vec.at(1) : vec.at(1) + start);
+
+
+            if (start != past_start + 1 or end != past_end + 1 or count_mu > past_end - past_start + 1) {
+                if (past_start != begin and ((bot == 0 and top == 0) or bot < past_end - begin + 1 < top) and
+                    count_mu == past_end - past_start + 1) {
+                    std::vector<int> mini_v = {begin, past_end};
+                    mu->push_back(mini_v);
+                }
+
+                begin = start;
+                past_end = end;
+                count_mu = 0;
+            }
+
+            past_start = start;
+
+        }
+
+        std::cout<< "number of perfect stitches: " << mu->size() << std::endl;
+    }
+
+    catch(const std::out_of_range& oor){
+        std::cout << "size of mu until exception: " << mu->size() << std::endl;
+        return;
+    }
+
+
+}
+
+
+
 #endif
+
 

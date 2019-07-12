@@ -3,6 +3,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/use_FM.dir/src/fastaReader.cpp.o"
   "CMakeFiles/use_FM.dir/src/spammodule.cpp.o"
   "CMakeFiles/use_FM.dir/src/pbar.cpp.o"
+  "CMakeFiles/use_FM.dir/src/primer_design.cpp.o"
   "use_FM.pdb"
   "use_FM"
 )

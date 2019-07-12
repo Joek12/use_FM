@@ -103,6 +103,12 @@
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/pbar.h">
 			<Option target="use_FM"/>
 		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/primer_design.cpp">
+			<Option target="use_FM"/>
+		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/primer_design.h">
+			<Option target="use_FM"/>
+		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/spammodule.cpp">
 			<Option target="use_FM"/>
 		</Unit>

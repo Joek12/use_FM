@@ -4,6 +4,7 @@
 #include "fastaReader.h"
 #include "pbar.h"
 #include "mu_commands.h"
+#include "primer_design.h"
 
 auto json_reader(std::string filename){
 
@@ -96,7 +97,7 @@ auto just_dump_read(std::string filename){
 
     }
 
-    return &reads;
+    return reads;
 }
 
 void write_hits_file(std::string fn, std::vector<int> * hits){
@@ -129,8 +130,21 @@ int main() {
     const std::string snp_pos = "/Users/josephkang/Documents/uniquekmer/output/ez_c22_SNP_pos";
     const std::string snp_char = "/Users/josephkang/Documents/uniquekmer/output/ez_c22_SNP_char";
 
+    primer_design pd;
+    std::string dum = "ATTCA";
+    std::cout << "A + G " << 'A' + 'G' << " " << std::endl;
+    std::cout << "find G in ATTCA " << (dum.find('G') != std::string::npos ? "true" : "false") << std::endl;
+    std::cout << "n_2_i of ACGT: " << pd.nucToInt("ACGT") << std::endl;
+    auto k2 = "ACGTTTAAATGTGC";
+    std::cout << "n_2_i of " << k2 << ": " << pd.nucToInt(k2) << std::endl;
+
+    return 0;
+
     auto reads = read_start_end(mu_start, mu_end);
-    //stitch(reads);
+    stitch(reads);
+    //perfect_stitch(reads);
+    distance(reads);
+
     std::cout << "start and end files read\n";
 
     fastaReader fr;
