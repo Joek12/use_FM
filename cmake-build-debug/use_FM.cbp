@@ -115,6 +115,9 @@
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/src/spammodule.h">
 			<Option target="use_FM"/>
 		</Unit>
+		<Unit filename="/Users/josephkang/CLionProjects/use_FM/test/test_primer_design.h">
+			<Option target="use_FM"/>
+		</Unit>
 		<Unit filename="/Users/josephkang/CLionProjects/use_FM/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

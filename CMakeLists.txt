@@ -5,4 +5,5 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(/Users/josephkang/Downloads/boost_1_68_0/boost/python.hpp)
 
-add_executable(use_FM src/main.cpp src/fastaReader.cpp src/fastaReader.h src/spammodule.cpp src/spammodule.h src/FMCommands.h src/pbar.h src/pbar.cpp src/mu_commands.h src/primer_design.cpp src/primer_design.h)
+add_executable(use_FM src/main.cpp src/fastaReader.cpp src/fastaReader.h src/spammodule.cpp src/spammodule.h src/FMCommands.h src/pbar.h src/pbar.cpp src/mu_commands.h src/primer_design.cpp src/primer_design.h
+        test/test_primer_design.h)
