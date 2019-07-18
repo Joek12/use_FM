@@ -17,6 +17,7 @@ class pbar {
     int pos;
     int barWidth;
     std::string  desc;
+    int count;
 
 
 

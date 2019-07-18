@@ -74,28 +74,28 @@ void stitch(std::deque<std::vector<int>> * mu){
 struct SNP{
     int pos;
     char s;
+
+    SNP(int p, char in_s){
+        pos = p;
+        s = in_s;
+    }
 };
 
-std::deque<SNP> read_snp_file(std::string pos, std::string ch){
-    std::deque<SNP> reads;
+void read_snp_file(std::vector<SNP> * reads, const std::string pos, const std::string ch){
     std::ifstream f1 (pos);
     std::ifstream f2 (ch);
 
     std::string line1;
     std::string line2;
 
+
     if (f1.is_open() and f2.is_open()){
         while(getline(f1, line1) and getline(f2, line2)) {
-            SNP mys;
-            mys.pos = std::stoi(line1);
-            assert(line2.size() == 1);
-            mys.s = line2[0];
-            reads.push_back(mys);
+            reads->emplace_back(std::stoi(line1), line2[0]);
         }
 
     }
 
-    return reads;
 }
 
 void distance(std::deque<std::vector<int>> * mu, int d = 300){

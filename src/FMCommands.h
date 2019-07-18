@@ -254,7 +254,10 @@ void write_start_end(std::deque<std::vector<int>> * reads, std::string start_fil
     }
 }
 
-std::deque<std::vector<int>> * read_start_end(const std::string start_file, const std::string end_file){
+void read_start_end( std::deque<std::vector<int>> * reads, const std::string start_file, const std::string end_file){
+    //output: deque of 2 entry vectors holding start pos and end length
+
+
     std::ifstream starts_if (start_file);
     std::ifstream ends_if (end_file);
     std::string start_line, end_line;
@@ -271,7 +274,6 @@ std::deque<std::vector<int>> * read_start_end(const std::string start_file, cons
 
         pbar pb (std::stoi(start_line), "reading starts and end");
 
-        auto *reads = new std::deque<std::vector<int>>;
         std::vector<int> mini;
 
         while( getline(starts_if, start_line) && getline(ends_if, end_line)){
@@ -286,10 +288,7 @@ std::deque<std::vector<int>> * read_start_end(const std::string start_file, cons
 
         starts_if.close();
         ends_if.close();
-        return reads;
     }
-    return nullptr;
-
 }
 
 struct valid_SNP{
@@ -299,7 +298,7 @@ struct valid_SNP{
     char s;
 };
 
-std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std::string * geno,  std::deque<SNP>* snps, FMIndex * fmi){
+void check_snp_unique(std::queue<valid_SNP> * v_snp, std::deque<std::vector<int>> * reads, std::string * geno,  std::vector<SNP>* snps, FMIndex * fmi){
     // assumes that reads contains start as pos and ends as length
 
     // phase 1: popping unnecessary k-mers
@@ -312,37 +311,47 @@ std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std
     int past_end = 0;
     int past_start = 0;
 
-    std::queue<valid_SNP> v_snp;
 
-    for (size_t i = 0; i < snp_arr_length; i++){
+    //for (size_t i = 0; i < snp_arr_length; i++){
+    for (SNP snp : *snps){
 
-        auto snp = snps->at(0);
-        snps->pop_front();
+        //auto snp = snps->at(i);
 
         // pop until acquiring first important kmer
         while(past_end < snp.pos){
+            if (reads->empty()) break;
             auto r_vec = reads->at(0);
             reads->pop_front();
             int start = r_vec.at(0);
             int end = r_vec.at(1);
+
             past_end = (end > start? end : start + end);
+            if (past_end >= snp.pos){
+                reads->push_front(r_vec);
+            }
         }
+
 
         // reading phase
         while(past_start <= snp.pos){
+
+            if (reads->empty()) break;
             auto r_vec = reads->at(0);
             reads->pop_front();
             int start = r_vec.at(0);
-            int end = r_vec.at(1);
+            int end = r_vec.at(1) > start? r_vec.at(1) - start : r_vec.at(1);
             past_start = start;
-            end = end > start? end - start : end;
-            if (start <= snp.pos <= end + start){
 
-                auto subs = geno->substr(start, end);
+            if ((start <= snp.pos and snp.pos < end + start) or (start < snp.pos and snp.pos <= end + start)){
+
+                auto dif = snp.pos - start;
+                auto subs = geno->substr(start, dif);
+                subs += (end > dif? geno->substr(snp.pos, end-dif) : "");
+
                 if(fmi->findn(subs) == 1){
                     //++count;
                     valid_SNP sn = {start, end, snp.pos, snp.s};
-                    v_snp.push(sn);
+                    v_snp->push(sn);
                 }
 
             }
@@ -370,7 +379,6 @@ std::queue<valid_SNP> check_snp_unique(std::deque<std::vector<int>> * reads, std
 
 
     }
-    return v_snp;
 }
 
 

@@ -5,7 +5,8 @@
 #include "pbar.h"
 #include "mu_commands.h"
 #include "primer_design.h"
-#include "../test/test_primer_design.h"
+//#include "../test/test_primer_design.h"
+#include <queue>
 
 auto json_reader(std::string filename){
 
@@ -119,10 +120,131 @@ void test_fmi(){
 
 }
 
+void check_as_primers(std::deque<std::vector<int>> * reads, const std::string * geno){
+    try {
+        primer_design pd;
+        int start = 0;
+        int end = 0;
+        int count = 0;
+
+        size_t length = reads->size();
+
+        pbar pb(length, "checking valid primers: ");
+        for (size_t i = 0; i < length; i++) {
+
+            auto mini = reads->at(0);
+
+            start = mini.at(0);
+
+            end = (mini.at(1) < start ? mini.at(1) : mini.at(1) - start);
+
+            reads->pop_front();
+
+            auto kmer = geno->substr(start, end);
+
+            if (pd.optimal(kmer, false)) {
+                ++count;
+                reads->emplace_back(mini);
+            }
+
+            pb.update();
+            pb.show();
+        }
+
+        std::cout << "number of valid kmers as primers: " << count << '\n';
+    }
+    catch(std::out_of_range){
+        std::cout<<"error caught in check_as_primers()";
+    }
+
+}
+
+
+void work(){
+
+    //iMac prefix
+    const std::string prefix = "/Users/josephkang/Documents/uniquekmer";
+
+    //22.fa
+    const std::string chr22 = prefix + "/data/22.fa";
+
+    //genome.fa
+    const std::string genome = prefix + "/data/genome.fa";
+
+    //22 fm index
+    const std::string chr22_fm = "/Users/josephkang/CLionProjects/use_FM/output/22_FM";
+
+    // MU start and end
+    const std::string mu_start = prefix + "/src/c22_mu_starts_0709";
+    const std::string mu_end = prefix + "/src/c22_mu_ends_0709";
+
+    // SNP
+    const std::string snp_pos = prefix + "/output/ez_c22_SNP_pos";
+    const std::string snp_char = prefix + "/output/ez_c22_SNP_char";
+
+    // read the MU's from the mu start and ends
+    auto reads = std::deque<std::vector<int>>();
+    read_start_end(&reads, mu_start, mu_end);
+    //stitch(reads);
+
+    std::cout << "number of mu read: " << reads.size() << '\n';
+
+    // stitch the reads
+    //stitch(reads);
+    //perfect_stitch(reads);
+    //distance(reads);
+
+
+    fastaReader fr;
+
+    // read the genome file
+    std::string geno = fr.read(chr22);
+
+    // read the SNPs
+    auto snps = std::vector<SNP>();
+
+    read_snp_file( &snps, snp_pos, snp_char);
+    std::cout << "number of snps read: " << snps.size() << '\n';
+
+    FMIndex *c22 = readFMFile(chr22_fm);
+
+    // change the mu's to only the unique ones
+    //assert_unique(&reads, &geno, c22);
+
+    // write the start and end of mu after assert
+    write_start_end(&reads, "mu_unique_starts", "mu_unique_ends");
+
+
+    check_as_primers(&reads, &geno);
+
+    std::cout << "number of valid primers received: " << reads.size() << '\n';
+
+
+    auto v_snp = std::queue<valid_SNP>();
+    // check if kmers are still unique after SNP
+    auto reads_copy = reads;
+    check_snp_unique(&v_snp, &reads_copy, &geno, &snps, c22);
+
+    std::cout << "number of valid snps: " << v_snp.size() << '\n';
+    std::cout << "size of reads afterwards: " << reads.size() << '\n';
+
+    //check_as_primers(&reads, &geno);
+
+}
+
+
+
+
+
 int main() {
+
+    work();
+
+
     //test_distribution();
     //test_nucToInt();
     //test_gc_content();
-    test_optimal();
+    //test_optimal();
+
     return 0;
 }

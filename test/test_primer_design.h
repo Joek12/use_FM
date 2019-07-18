@@ -104,7 +104,7 @@ void test_optimal(){
             "AAAAAAAAAAAA",
             "GTACGATAAGCTAAGTA",
             "GTACGATAAGCTGGGGGG",
-            "GAGCCTGAGTAGATAG"
+            "GACGAGCCTGAGTAGATAG"
     };
 
     vector <bool> results;

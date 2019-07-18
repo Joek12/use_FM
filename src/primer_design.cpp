@@ -150,6 +150,7 @@ bool primer_design::optimal(const std::string kmer, const bool verbose) {
     // run through all the tests and return whether this kmer is optimal as a primer
     bool flag = true;
 
+
     if(not length_check(kmer)){
 
         if (verbose) {
@@ -159,6 +160,31 @@ bool primer_design::optimal(const std::string kmer, const bool verbose) {
 
         else return false;
 
+    }
+
+
+
+    if (not good_3_end(kmer)) {
+
+        if (verbose){
+            std::cout << kmer << " is not optimal as a primer because of the presence of 'T' in its 3' end." << '\n';
+            flag = false;
+        }
+
+        else return false;
+    }
+
+    if (not good_last_5(kmer)){
+
+        if (verbose){
+            if (kmer.size() >= 5)
+                std::cout << kmer << " is not optimal as a primer because of the last 5 bp (" << kmer.substr(kmer.size() - 5, kmer.size())
+                << ")." << '\n';
+
+            flag = false;
+        }
+
+        else return false;
     }
 
     auto gc_c = gc_content(kmer);
@@ -177,29 +203,6 @@ bool primer_design::optimal(const std::string kmer, const bool verbose) {
 
         if (verbose){
             std::cout << kmer << " is not optimal as a primer because of its distribution." << '\n';
-            flag = false;
-        }
-
-        else return false;
-    }
-
-    if (not good_3_end(kmer)) {
-
-        if (verbose){
-            std::cout << kmer << " is not optimal as a primer because of the presence of 'T' in its 3' end." << '\n';
-            flag = false;
-        }
-
-        else return false;
-    }
-
-    if (not good_last_5(kmer)){
-
-        if (verbose){
-            if (kmer.size() >= 5)
-                std::cout << kmer << " is not optimal as a primer because of the last 5 bp" << " (" << kmer.substr(kmer.size() - 5, kmer.size())
-                << ") " << '\n';
-
             flag = false;
         }
 
