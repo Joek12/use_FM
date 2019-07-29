@@ -78,7 +78,7 @@ public:
 
     size_t findn(const std::string & pattern) const;
 
-    size_t find(std::list<std::pair<const_iterator, const_reverse_iterator>> & matches,
+    size_t find(std::list< std::pair< const_iterator, const_reverse_iterator > > & matches,
                 const std::string & pattern,
                 const size_t max_context = 100) const;
 
