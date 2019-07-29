@@ -171,8 +171,12 @@ void work(){
     //genome.fa
     const std::string genome = prefix + "/data/genome.fa";
 
-    //22 fm index
-    const std::string chr22_fm = "/Users/josephkang/CLionProjects/use_FM/output/22_FM";
+    // use FM prefix
+    const std::string fm_prefix = "/Users/josephkang/CLionProjects/use_FM";
+
+    // fm indices
+    const std::string chr22_fm = fm_prefix + "/output/22_FM";
+    const std::string geno_fm = fm_prefix + "/output/genome_FM_index";
 
     // MU start and end
     const std::string mu_start = prefix + "/src/c22_mu_starts_0709";
@@ -199,6 +203,7 @@ void work(){
 
     // read the genome file
     std::string geno = fr.read(chr22);
+    //std::string geno = fr.read(genome);
 
     // read the SNPs
     auto snps = std::vector<SNP>();
@@ -206,7 +211,8 @@ void work(){
     read_snp_file( &snps, snp_pos, snp_char);
     std::cout << "number of snps read: " << snps.size() << '\n';
 
-    FMIndex *c22 = readFMFile(chr22_fm);
+    //FMIndex *c22 = readFMFile(chr22_fm);
+    FMIndex *c22 = readFMFile(geno_fm);
 
     // change the mu's to only the unique ones
     //assert_unique(&reads, &geno, c22);
@@ -225,10 +231,10 @@ void work(){
     auto reads_copy = reads;
     check_snp_unique(&v_snp, &reads_copy, &geno, &snps, c22);
 
-    std::cout << "number of valid snps: " << v_snp.size() << '\n';
+    //std::cout << "number of valid snps: " << v_snp.size() << '\n';
     std::cout << "size of reads afterwards: " << reads.size() << '\n';
 
-    //check_as_primers(&reads, &geno);
+    check_as_primers(&reads, &geno);
 
 }
 
@@ -238,7 +244,8 @@ void work(){
 
 int main() {
 
-    work();
+    while(1)
+        work();
 
 
     //test_distribution();
