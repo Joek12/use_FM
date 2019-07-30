@@ -120,6 +120,9 @@ void test_fmi(){
 
 }
 
+#ifndef CHECK_AS_PRIMERS
+#define CHECK_AS_PRIMERS
+
 void check_as_primers(std::deque<std::vector<int>> * reads, const std::string * geno){
     try {
         primer_design pd;
@@ -158,6 +161,8 @@ void check_as_primers(std::deque<std::vector<int>> * reads, const std::string * 
     }
 
 }
+
+#endif
 
 
 void work(){
@@ -211,8 +216,8 @@ void work(){
     read_snp_file( &snps, snp_pos, snp_char);
     std::cout << "number of snps read: " << snps.size() << '\n';
 
-    //FMIndex *c22 = readFMFile(chr22_fm);
-    FMIndex *c22 = readFMFile(geno_fm);
+    FMIndex *c22 = readFMFile(chr22_fm);
+    //FMIndex *c22 = readFMFile(geno_fm);
 
     // change the mu's to only the unique ones
     //assert_unique(&reads, &geno, c22);
@@ -244,8 +249,11 @@ void work(){
 
 int main() {
 
-    while(1)
+    while(1) {// verified that trigraph '??!' erased in c++17
+
         work();
+    }
+
 
 
     //test_distribution();
