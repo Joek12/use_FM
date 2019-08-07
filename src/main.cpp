@@ -220,15 +220,15 @@ void work(){
     //FMIndex *c22 = readFMFile(geno_fm);
 
     // change the mu's to only the unique ones
-    //assert_unique(&reads, &geno, c22);
+    assert_unique(&reads, &geno, c22);
 
     // write the start and end of mu after assert
     write_start_end(&reads, "mu_unique_starts", "mu_unique_ends");
 
 
-    check_as_primers(&reads, &geno);
+    //check_as_primers(&reads, &geno);
 
-    std::cout << "number of valid primers received: " << reads.size() << '\n';
+    //std::cout << "number of valid primers received: " << reads.size() << '\n';
 
 
     auto v_snp = std::queue<valid_SNP>();
@@ -236,10 +236,11 @@ void work(){
     auto reads_copy = reads;
     check_snp_unique(&v_snp, &reads_copy, &geno, &snps, c22);
 
-    //std::cout << "number of valid snps: " << v_snp.size() << '\n';
-    std::cout << "size of reads afterwards: " << reads.size() << '\n';
 
     check_as_primers(&reads, &geno);
+
+    std::cout << "number of valid snps: " << v_snp.size() << '\n';
+    std::cout << "size of reads afterwards: " << reads.size() << '\n';
 
 }
 
@@ -249,11 +250,7 @@ void work(){
 
 int main() {
 
-    while(1) {// verified that trigraph '??!' erased in c++17
-
-        work();
-    }
-
+    work();
 
 
     //test_distribution();
